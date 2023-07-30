@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 const yargs = require("yargs");
-const CliC = require("./controllers/CliController.js");
-const repoFetcher = require("./controllers/GetPopularRepos.js");
+const CliC = require("../controllers/CliController.js");
+const repoFetcher = require("../controllers/GetPopularRepos.js");
 
 var argv = require("yargs/yargs")(process.argv.slice(2))
     .usage("Usage: starrepo [--clear|--c][--parse[=(ISO_Date)]] [[-name=(name|full_name)] | [-id=(Repo_ID)]]")

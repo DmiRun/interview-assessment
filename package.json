@@ -2,19 +2,24 @@
   "name": "interview-assessment",
   "version": "1.0.0",
   "description": "",
-  "main": "bin/index.js",
+  "main": "server/index.js",
   "bin": {
     "starrepo": "./bin/CliClient.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js"
   },
   "keywords": [
-    "cli"
+    "cli",
+    "backend",
+    "frontend",
+    "api"
   ],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mssql": "^9.1.1",
