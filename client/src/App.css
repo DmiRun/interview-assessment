@@ -1,44 +1,101 @@
+:root{
+    --accent:       #61dafb;
+    --main:         #323540;
+    --background:   #191a25;
+}
+a{
+    color: var(--accent);
+}
 .App {
-  text-align: center;
-  max-width: 900px;
-  margin: auto;
+    text-align: center;
+    max-width: 1000px;
+    margin: auto;
+    border-left: var(--accent) 2px inset;
+    border-right: var(--accent) 2px inset;
 }
-.table-ui{
-    width: 900px;
+.table-ui {
+    width: 100%;
+}
+.form-input-ui {
+    color: var(--accent);
+    background-color: var(--background);
+    border: var(--accent) 1px inset;
+    width: 95%;
+    transition: background-color 1s ease-out;
+}
+.form-input-ui:active {
+    background-color: var(--accent);
+}
+table, th, td {
+    border-collapse: collapse;
+    border: var(--accent) 1px solid;
+}
+td {
+    padding: 3px;
+}
+.table-wrapper {
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: block;
+    width: 100%;
+    max-width: 980px;
     overflow-x: scroll;
+    border: var(--accent) 2px inset;
 }
-
+body {
+    background-color: var(--background);
+}
+main {
+    background-color: var(--main);
+    color: var(--accent);
+}
+.control-panel-ui {
+    border-bottom: var(--accent) 2px inset;
+}
+.control-panel-element-ui {
+    border: var(--accent) 2px inset;
+    max-width: 400px;
+    margin: 5px;
+    padding-bottom: 4px;
+}
+.form-input-ui {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 90%;
+}
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+    height: 40vmin;
+    pointer-events: none;
+    }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    width: 100%;
+    background-color: var(--main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 1vmin);
+    color: var(--accent);
 }
 
 .App-link {
-  color: #61dafb;
+    color: var(--accent);
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+    }

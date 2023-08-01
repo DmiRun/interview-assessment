@@ -1,6 +1,14 @@
 const CliC = require("../../controllers/CliController.js");
-const repoFetcher = require("../controllers/GetPopularRepos.js");
+const repoFetcher = require("../../controllers/GetPopularRepos.js");
 const url = require("url");
+
+exports.DeleteController = (req, res) => {
+    console.log("Truncating DB!");
+    CliC.ClearDB()
+    .then( (result) => {
+        res.status(202).end() 
+    });
+}
 
 exports.GetController = (req, res) => {
     let query = url.parse(req.url, true).query;
@@ -8,7 +16,6 @@ exports.GetController = (req, res) => {
     if(query.name){
         CliC.GetByName(query.name)
         .then((repo) => {
-            console.table(repo.recordset);
             res.status(200)
             .type("application/json")
             .json({ repositories: repo.recordset });
@@ -32,17 +39,40 @@ exports.GetController = (req, res) => {
     }
 }
 
+var surveyInterval = 10;
+var surveyStartDate;
+
 exports.PutController = (req, res) => {
         let query = url.parse(req.url, true).query;
         if(query.interval) {
-            let start_date = null;
+            surveyInterval = query.minutes;
 
             if(query.startDate) {
-                start_date = query.startDate;
+                surveyStartDate = query.startDate;
             }
-            CliC.SetRequestInterval(query.minutes,start_date);
-        }
+            else{
+                const dateNow = new Date();
+                let startDate = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDay() - 30);
+                surveyStartDate = startDate.toISOString().split("T")[0];
+            }
 
-        repoFetcher.GetPopularRepos()
-        .then( res.status(202) );
+            CliC.SetRequestInterval(surveyInterval, surveyStartDate);
+            console.log(`Surveying interval was set to ${surveyInterval} min`);
+        }
+        else{
+            if(!surveyStartDate){
+                const dateNow = new Date();
+                let startDate = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDay() - 30);
+                surveyStartDate = startDate.toISOString().split("T")[0];
+            }
+            //restarting interval on force updates
+            CliC.SetRequestInterval(surveyInterval, surveyStartDate);
+        }
+        
+        console.log(`Surveying GitHub API for repos starting from ${surveyStartDate} now and every ${surveyInterval} minutes from now.`)
+        try{
+            repoFetcher.GetPopularRepos()
+            .then( res.status(202).end() );
+        }
+        catch{}
     };

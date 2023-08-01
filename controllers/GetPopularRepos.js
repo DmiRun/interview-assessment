@@ -2,6 +2,7 @@ const DataBase = require("./DatabaseController.js");
 const apiUrl = "https://api.github.com/search/repositories";
 
 async function GetDataJson(url) {
+    console.log("Parsing data...");
     const response = await fetch(url, {
         method: "GET",
         headers:{
@@ -30,12 +31,23 @@ exports.GetPopularRepos = function(inputDate) {
     //Returns data as an array of repositories. 
     //Structure can be found on https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-repositories
     return GetDataJson(endpoint)
-    .then(SaveToDB);
+    .then(SaveToDB)
+    .catch((err) => {
+        console.warn(err);
+    });
     //then saves them to DB
 }
 
 
 function SaveToDB(reposRaw) {
+    if(!reposRaw){
+        return Promise.reject(Error("failed to fetch data"));
+    }
+    if(reposRaw.message) {
+        if(reposRaw.message.startsWith("API rate limit exceeded")) {
+            return Promise.reject(Error("API limit exceeded!"));
+        }
+    }
     const repos = reposRaw.items.map(
         (repositoryRaw) => {
             let repo = {
