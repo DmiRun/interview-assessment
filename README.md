@@ -1,4 +1,7 @@
 # Interview-assessment - StarRepo
+
+[EN](#en)
+[RU](#ru)
 # EN
 ## About project
 This project was made with Node.js + React.js.
