@@ -62,6 +62,7 @@ var argv = require("yargs/yargs")(process.argv.slice(2))
         }),
         handler:    (argv) => {
             CliC.GetByName(argv.repo_name).then(OutputTable);
+            console.log(`get by name ${argv.repo_name}`)
         }
     })
     .command({

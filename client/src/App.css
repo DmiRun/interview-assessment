@@ -1,5 +1,11 @@
 .App {
   text-align: center;
+  max-width: 900px;
+  margin: auto;
+}
+.table-ui{
+    width: 900px;
+    overflow-x: scroll;
 }
 
 .App-logo {
