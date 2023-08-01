@@ -15,6 +15,51 @@ It includes:
 - Outputs it as a table with links to repositories so you can look at most popular repositories right away!
 - Allows for search for specific repository by its name or ID in the database
 
+## API 
+- **GET /api/repositories** - returns all repositories from the database
+```JS
+//Schema:
+{
+    repositories: [
+        {
+            id:                   int,
+            repoName:             string,
+            repoFullName:         string,
+            programmingLanguage:  string,
+            repoUrl:              string,
+            stars:                int
+        },
+        {
+            ...
+        }
+    ]
+}
+```
+- **GET /api/repositories?name={NAME}** - returns repository with the name {NAME} if it is present in the database
+- **GET /api/repositories?id={ID}**     - returns repository with the id {ID} if it is present in the database
+```JS
+//Schema:
+{
+    repositories: [
+        {
+            id:                   int,
+            repoFullName:         string,
+            programmingLanguage:  string,
+            repoUrl:              string
+        },
+        {
+            ...
+        }
+    ]
+}
+```
+- **PUT /api/repositories** - immediately fetches data from GitHub API and resets surveying timer
+- **PUT /api/repositories?startDate={START_DATE}** - immediately fetches data from GitHub API and resets surveying timer. Sets starting date of surveying to the one provided in query. Date must be in format YYYY-MM-DD
+- **PUT /api/repositories?interval={MINUTES}** - starts or overrides current surveying interval for fetching data every {MINUTES} minutes 
+- **PUT /api/repositories?interval={MINUTES}&startDate={START_DATE}** - starts or overrides current surveying interval for fetching data every {MINUTES} minutes. Sets starting date of surveying to the one provided in query. Date must be in format YYYY-MM-DD
+
+- **DELETE /api/repositories** - clears database of all data
+
 ### About development process and the project in general
 #### Known issues:
 - Positional arguments in CLI cause yargs to throw 2-3 errors without breaking functionality in any way
@@ -56,6 +101,53 @@ It includes:
 - Опрашивает GitHub API о самых популярных репозиториях за промежуток, начинающийся с выбранного Вами времени!
 - Выводит эту информацию таблицей с ссылками на репозитории, что позволяет открыть их прямо из приложения!
 - Проводит поиск определённого репозитория в базе данных по его имени или ID
+
+
+## API 
+- **GET /api/repositories** - выдаёт все репозитории из базы данных
+```JS
+//Схема ответа:
+{
+    repositories: [
+        {
+            id:                   int,
+            repoName:             string,
+            repoFullName:         string,
+            programmingLanguage:  string,
+            repoUrl:              string,
+            stars:                int
+        },
+        {
+            ...
+        }
+    ]
+}
+```
+- **GET /api/repositories?name={NAME}** - возвращает данные о репозитории с именем {NAME} если она есть в базе данных
+- **GET /api/repositories?id={ID}**     - возвращает данные о репозитории с id {ID} если она есть в базе данных
+```JS
+//Схема ответа:
+{
+    repositories: [
+        {
+            id:                   int,
+            repoFullName:         string,
+            programmingLanguage:  string,
+            repoUrl:              string
+        },
+        {
+            ...
+        }
+    ]
+}
+```
+- **PUT /api/repositories** - немедленно запрашивает данные с API и начинает отсчёт времени опроса с начала
+- **PUT /api/repositories?startDate={START_DATE}** - немедленно запрашивает данные с API и начинает отсчёт времени опроса с начала. Устанавливает начальную дату для опроса на указанную в запросе. Дата должна быть в формате YYYY-MM-DD
+- **PUT /api/repositories?interval={MINUTES}** - устанавливает, либо перезаписывает текущий интервал опроса API для запроса данных каждые {MINUTES} минут
+- **PUT /api/repositories?interval={MINUTES}&startDate={START_DATE}** - устанавливает, либо перезаписывает текущий интервал опроса API для запроса данных каждые {MINUTES} минут. Устанавливает начальную дату для опроса на указанную в запросе. Дата должна быть в формате YYYY-MM-DD
+
+- **DELETE /api/repositories** - очищает базу данных от всей информации
+
 
 ### О процессе разработки и проекте в общем
 #### Известные проблемы:
