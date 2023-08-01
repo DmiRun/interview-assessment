@@ -3,12 +3,32 @@ const yargs = require("yargs");
 const CliC = require("../controllers/CliController.js");
 const repoFetcher = require("../controllers/GetPopularRepos.js");
 
+function OutputTable(table){
+    console.table( table.recordset.sort( (a, b) => b.stars - a.stars ) );
+}
+
 var argv = require("yargs/yargs")(process.argv.slice(2))
-    .usage("Usage: starrepo [--clear|--c][--parse[=(ISO_Date)]] [[-name=(name|full_name)] | [-id=(Repo_ID)]]")
     .command({
         command:    '*',
         handler:    (argv) => {
-            CliC.GetAll();
+            CliC.GetAll().then(OutputTable);
+        }
+    })
+    .command({
+        command:    'survey <minutes> [start_date]',
+        aliases:    ['survey', 'interval'],
+        desc:       'Updated database on each interval in minutes searching for repositories from selected [start_date]',
+        builder:    (yargs) => {
+            yargs.positional("minutes", {
+                require: true
+            });
+            yargs.positional("start_date", {
+                require: false
+            })
+        },
+        handler:    (argv) => {
+            CliC.SetRequestInterval(argv.minutes, argv.start_date);
+            console.log(`Now surveing GitHub API every ${argv.minutes} min`);
         }
     })
     .command({
@@ -41,7 +61,7 @@ var argv = require("yargs/yargs")(process.argv.slice(2))
             describe: "name or full name of GitHub repository"
         }),
         handler:    (argv) => {
-            CliC.GetByName(argv.repo_name);
+            CliC.GetByName(argv.repo_name).then(OutputTable);
         }
     })
     .command({
@@ -53,7 +73,7 @@ var argv = require("yargs/yargs")(process.argv.slice(2))
             describe: "id of GitHub repository"
         }),
         handler:    (argv) => {
-            CliC.GetByID(argv.repo_id);
+            CliC.GetByID(argv.repo_id).then(OutputTable);
         }
     })
     .argv;

@@ -26,7 +26,7 @@ exports.GetPopularRepos = function(inputDate) {
     + `sort:stars`;
 
     const endpoint = `${apiUrl}?${query}`;
-
+    
     //Returns data as an array of repositories. 
     //Structure can be found on https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-repositories
     return GetDataJson(endpoint)
