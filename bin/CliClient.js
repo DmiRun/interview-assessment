@@ -28,7 +28,7 @@ var argv = require("yargs/yargs")(process.argv.slice(2))
         },
         handler:    (argv) => {
             CliC.SetRequestInterval(argv.minutes, argv.start_date);
-            console.log(`Now surveing GitHub API every ${argv.minutes} min`);
+            console.log(`Now surveying GitHub API every ${argv.minutes} min`);
         }
     })
     .command({

@@ -5,9 +5,10 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
-const hostname = "localhost";
-const port = 3001;
+const port = process.env.SERVER_URL.split(":")[1];
+
 app.use(cors());
+
 app.get("/api", (req, res) => {
     res.json({ message: "Hello from server!" });
   });
